@@ -19,9 +19,6 @@ fi
 echo "==> Updating Homebrew"
 brew update
 
-echo "==> Installing software"
-brew bundle --file="$BREWFILE"
-
 echo "==> Installing zsh configuration"
 if [[ ! -f "$ZSHRC_SOURCE" ]]; then
   echo "Missing source zsh config: $ZSHRC_SOURCE" >&2
@@ -41,6 +38,37 @@ else
   echo "Installed $ZSHRC_TARGET"
 fi
 
+echo "==> Installing software"
+cask_skip=()
+
+skip_cask_if_app_exists() {
+  local cask="$1"
+  local app="$2"
+
+  if [[ -e "/Applications/$app" ]] && ! brew list --cask "$cask" >/dev/null 2>&1; then
+    cask_skip+=("$cask")
+    echo "Skipping $cask because /Applications/$app already exists outside Homebrew"
+  fi
+}
+
+skip_cask_if_app_exists "visual-studio-code" "Visual Studio Code.app"
+skip_cask_if_app_exists "iterm2" "iTerm.app"
+skip_cask_if_app_exists "rectangle" "Rectangle.app"
+skip_cask_if_app_exists "raycast" "Raycast.app"
+skip_cask_if_app_exists "google-chrome" "Google Chrome.app"
+skip_cask_if_app_exists "bitwarden" "Bitwarden.app"
+skip_cask_if_app_exists "anydesk" "AnyDesk.app"
+skip_cask_if_app_exists "chatgpt" "ChatGPT.app"
+skip_cask_if_app_exists "codex" "Codex.app"
+skip_cask_if_app_exists "synology-drive" "Synology Drive Client.app"
+skip_cask_if_app_exists "stats" "Stats.app"
+
+if ((${#cask_skip[@]})); then
+  HOMEBREW_BUNDLE_CASK_SKIP="${cask_skip[*]}" brew bundle --file="$BREWFILE" --no-upgrade
+else
+  brew bundle --file="$BREWFILE" --no-upgrade
+fi
+
 echo "==> Applying common macOS defaults"
 
 # Finder
@@ -53,7 +81,7 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
 # Dock
 defaults write com.apple.dock show-recents -bool false
-defaults write com.apple.dock tilesize -int 40
+defaults write com.apple.dock tilesize -int 56
 defaults write com.apple.dock mru-spaces -bool false
 
 # Trackpad
