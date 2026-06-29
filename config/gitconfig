@@ -1,0 +1,27 @@
+# macsetup git configuration
+
+[init]
+  defaultBranch = main
+
+[pull]
+  ff = only
+
+[fetch]
+  prune = true
+
+[push]
+  autoSetupRemote = true
+
+[core]
+  editor = code --wait
+  excludesfile = __MACSETUP_GITIGNORE__
+
+[rerere]
+  enabled = true
+
+[alias]
+  st = status --short --branch
+  co = checkout
+  br = branch
+  ci = commit
+  lg = log --oneline --decorate --graph --all

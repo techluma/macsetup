@@ -1,0 +1,28 @@
+" macsetup vim configuration
+
+set nocompatible
+set backspace=indent,eol,start
+set hidden
+set history=1000
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set number
+set relativenumber
+set ruler
+set showcmd
+set wildmenu
+set mouse=a
+set clipboard=unnamed
+set splitbelow
+set splitright
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set autoindent
+set smartindent
+
+syntax on
+filetype plugin indent on
