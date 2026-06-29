@@ -35,6 +35,7 @@ cask "bitwarden"
 cask "anydesk"
 cask "chatgpt"
 cask "codex"
+cask "supacode"
 cask "synology-drive"
 cask "stats"
 
