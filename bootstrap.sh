@@ -193,9 +193,13 @@ skip_cask_if_app_exists "synology-drive" "Synology Drive Client.app"
 skip_cask_if_app_exists "stats" "Stats.app"
 
 if ((${#cask_skip[@]})); then
-  HOMEBREW_BUNDLE_CASK_SKIP="${cask_skip[*]}" brew bundle --file="$BREWFILE" --no-upgrade
+  if ! HOMEBREW_BUNDLE_CASK_SKIP="${cask_skip[*]}" brew bundle --file="$BREWFILE" --no-upgrade; then
+    echo "brew bundle hit one or more errors; continuing bootstrap"
+  fi
 else
-  brew bundle --file="$BREWFILE" --no-upgrade
+  if ! brew bundle --file="$BREWFILE" --no-upgrade; then
+    echo "brew bundle hit one or more errors; continuing bootstrap"
+  fi
 fi
 
 echo "==> Applying common macOS defaults"
