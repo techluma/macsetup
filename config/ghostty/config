@@ -1,3 +1,8 @@
 # macsetup Ghostty configuration
 
-font-size = 14
+font-size = 18
+background = 000000
+foreground = 00ff00
+cursor-color = 00ff00
+selection-background = 003300
+selection-foreground = 00ff00
